@@ -1,0 +1,8 @@
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+db/
+dumps/
+restore/

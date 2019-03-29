@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  data:
+    build: .
+    image: washpost/mongo-vandelay
+    container_name: mongo-vandelay
+    environment:
+      DB_NAME: vandelay-test
+      RESTORE: 3
+      SYNC: 5
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db:/data/db:rw
+      - ./dumps:/data/dumps:rw
+      - ./restore:/data/restore:rw
