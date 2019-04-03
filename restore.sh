@@ -11,35 +11,38 @@ restoreFromDir () {
 }
 
 restore () {
-  (
-    cd /data/restore
-    directories=$(ls -d */ 2> /dev/null)
-    if [ "$directories" ]
-    then
-      flush="true"
-      for directory in $directories
-      do
-        restoreFromDir "${directory%%/}"
-      done
-    fi
+  if [ -d '/data/restore' ]
+  then
+    (
+      cd /data/restore
+      directories=$(ls -d */ 2> /dev/null)
+      if [ "$directories" ]
+      then
+        flush="true"
+        for directory in $directories
+        do
+          restoreFromDir "${directory%%/}"
+        done
+      fi
 
-    tarballs=$(ls *.tar.gz 2> /dev/null)
-    if [ "$tarballs" ]
-    then
-      flush="true"
-      for tarball in $tarballs
-      do
-        FILE_NAME="${tarball%%.tar.gz}"
-        rm -rf "./${FILE_NAME}"
-        mkdir -p "./${FILE_NAME}"
-        tar xf ${tarball} --strip-components 1 -C "./${FILE_NAME}"
+      tarballs=$(ls *.tar.gz 2> /dev/null)
+      if [ "$tarballs" ]
+      then
+        flush="true"
+        for tarball in $tarballs
+        do
+          FILE_NAME="${tarball%%.tar.gz}"
+          rm -rf "./${FILE_NAME}"
+          mkdir -p "./${FILE_NAME}"
+          tar xf ${tarball} --strip-components 1 -C "./${FILE_NAME}"
 
-        restoreFromDir "${FILE_NAME}"
+          restoreFromDir "${FILE_NAME}"
 
-        rm -rf ${tarball}
-      done
-    fi
-  )
+          rm -rf ${tarball}
+        done
+      fi
+    )
+  fi
 }
 
 if [ "$(ps -A | awk '{ print $4; }' | grep '^mongod$')" ]
