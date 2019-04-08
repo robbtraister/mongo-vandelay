@@ -4,8 +4,8 @@ RUN apt-get update && \
     apt-get install -y \
                     rsync
 
-WORKDIR /data
+WORKDIR /data/bin
 
 CMD ["./run.sh"]
 
-COPY *.sh ./
+COPY ./bin/*.sh ./

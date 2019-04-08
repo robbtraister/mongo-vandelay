@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ./init.sh
+
 sync () {
   while [ true ]
   do
@@ -32,15 +34,9 @@ execWithInterval () {
 }
 
 # restore will sync
-. ./restore.sh
-if [ "${RESTORE}" ]
-then
-  execWithInterval restore "${RESTORE}"
-fi
+./restore.sh
 
-if [ "${SYNC}" ]
-then
-  execWithInterval sync "${SYNC}"
-fi
+execWithInterval restore "${RESTORE}"
+execWithInterval sync "${SYNC}"
 
-mongod --dbpath="${DB_PATH:-/data/db}"
+mongod --dbpath="${DB_PATH}"

@@ -18,7 +18,8 @@ then
   dump
 else
   . ./sync.sh
-  mongod --dbpath="${DB_PATH:-/data/db}" --fork --logpath /dev/stdout
+
+  mongod --dbpath="${DB_PATH}" --fork --logpath /dev/stdout
   dump
-  mongod --dbpath="${DB_PATH:-/data/db}" --shutdown
+  mongod --dbpath="${DB_PATH}" --shutdown
 fi

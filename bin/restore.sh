@@ -1,13 +1,17 @@
 #!/bin/sh
 
 restoreFromDir () {
-  DIR_NAME=$1
-  # allow for hard-coded DB_NAME env var
-  DB_NAME=${DB_NAME:-${DIR_NAME}}
-  echo "restoring data into ${DB_NAME}..."
-  mongorestore -d "${DB_NAME}" --drop "./${DIR_NAME}"
-  rm -rf "./${DIR_NAME}"
-  echo "${DB_NAME} restored."
+  (
+    cd /data/restore
+
+    DIR_NAME=$1
+    # allow for hard-coded DB_NAME env var
+    DB_NAME=${DB_NAME:-${DIR_NAME}}
+    echo "restoring data into ${DB_NAME}..."
+    mongorestore -d "${DB_NAME}" --drop "./${DIR_NAME}"
+    rm -rf "./${DIR_NAME}"
+    echo "${DB_NAME} restored."
+  )
 }
 
 restore () {
@@ -50,7 +54,8 @@ then
   restore
 else
   . ./sync.sh
-  mongod --dbpath="${DB_PATH:-/data/db}" --fork --logpath /dev/stdout
+
+  mongod --dbpath="${DB_PATH}" --fork --logpath /dev/stdout
   restore
-  mongod --dbpath="${DB_PATH:-/data/db}" --shutdown
+  mongod --dbpath="${DB_PATH}" --shutdown
 fi
