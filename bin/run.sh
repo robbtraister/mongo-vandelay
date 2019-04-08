@@ -5,7 +5,7 @@
 sync () {
   while [ true ]
   do
-    sleep ${1:-5}
+    sleep "${1:-5}"
     rsync -a "${DB_PATH}/"* "${SYNC_PATH}"
   done
 }
@@ -13,28 +13,30 @@ sync () {
 restore () {
   while [ true ]
   do
-    sleep ${1:-3}
+    sleep "${1:-3}"
     ./restore.sh
   done
 }
 
 execWithInterval () {
-  COMMAND=$1
-  INTERVAL=$2
+  COMMAND="$1"
+  INTERVAL="$2"
 
   if [ "${INTERVAL}" = 'true' ]
   then
     "${COMMAND}" &
   else
-    if [ "$(echo ${INTERVAL} | egrep '^[0-9]+$')" ]
+    if [ "$(echo "${INTERVAL}" | egrep '^[0-9]+$')" ]
     then
       "${COMMAND}" "${INTERVAL}" &
     fi
   fi
 }
 
-# restore will sync
-./restore.sh
+if [ "${SYNC}" = 'true'] || [ "$(echo "${SYNC}" | egrep '^[0-9]+$')" ]
+then
+  ./sync.sh
+fi
 
 execWithInterval restore "${RESTORE}"
 execWithInterval sync "${SYNC}"
