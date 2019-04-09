@@ -33,7 +33,7 @@ execWithInterval () {
   fi
 }
 
-if [ "${SYNC}" = 'true'] || [ "$(echo "${SYNC}" | egrep '^[0-9]+$')" ]
+if [ "${SYNC}" = 'true' ] || [ "$(echo "${SYNC}" | egrep '^[0-9]+$')" ]
 then
   ./sync.sh
 fi
