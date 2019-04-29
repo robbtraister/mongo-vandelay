@@ -7,3 +7,6 @@ then
 else
   DB_PATH="${DB_PATH:-/data/db}"
 fi
+
+mkdir -p "${DB_PATH}"
+chown -R mongodb:mongodb "${DB_PATH}"
