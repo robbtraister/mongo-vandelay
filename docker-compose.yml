@@ -3,7 +3,7 @@ version: '3.4'
 services:
   data:
     build: .
-    image: washpost/mongo-vandelay
+    image: robbtraister/mongo-vandelay
     container_name: mongo-vandelay
     environment:
       DB_NAME: vandelay-test
