@@ -41,4 +41,4 @@ fi
 execWithInterval restore "${RESTORE}"
 execWithInterval sync "${SYNC}"
 
-mongod --dbpath="${DB_PATH}"
+mongod --dbpath="${DB_PATH}" --bind_ip=0.0.0.0
